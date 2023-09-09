@@ -119,7 +119,7 @@ export class MainServer {
 		});
 
 		const pubClient = createClient({
-			url: 'redis://127.0.0.1:6379'
+			url: 'redis://default:YindocO3I7ybkSBUNsq2k4O6J6syl2oV@redis-10660.c100.us-east-1-4.ec2.cloud.redislabs.com:10660'
 		});
 		const subClient = pubClient.duplicate();
 		log.info(`Redis started on port ${config.REDIS_HOST}`);
