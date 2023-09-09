@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "npm install --save-dev && npm run build && node build/app.js | ./node_modules/.bin/bunyan",
+    "start": "npm run build && node build/app.js",
     "dev": "nodemon -r tsconfig-paths/register src/app.ts | ./node_modules/.bin/bunyan",
     "eslint": "eslint 'src/**/*.ts'",
     "eslintfix": "eslint --fix 'src/**/*.ts'",
