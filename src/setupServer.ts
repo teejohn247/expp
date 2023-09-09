@@ -17,7 +17,7 @@ import { cloudinaryConfig } from './config/cloudinary';
 // import applicationRoutes from '@root/routes';
 import { CustomError, IErrorResponse } from '@global/helpers/error-handler';
 
-const SERVER_PORT = 4000;
+const SERVER_PORT = process.env.PORT;
 const log: Logger = config.createLogger('server');
 dotenv.config();
 
