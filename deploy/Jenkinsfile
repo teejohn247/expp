@@ -1,0 +1,66 @@
+pipeline {
+    agent any
+    	environment {
+        PROJECT = 'Mopheth Backend'
+        DEPLOY_ENV = 'Staging'
+		DOCKERHUB_CREDENTIALS=credentials('docker-hub-creds') 
+        BUILD_NUMBER = "${currentBuild.number}"
+        DOCKER_IMAGE_NAME = 'balocodes/mopheth-backend-app-staging'
+        CONTAINER_NAME = 'mopheth_backend'
+    	}
+    stages {
+        stage('Clean Workspace') {
+            steps {
+                cleanWs()
+            }
+        }
+        stage('Clone Repository'){
+             steps{
+             git branch: 'staging', credentialsId: '9cf76568-5ff3-4e33-b57b-1c64d68eda13', url: 'https://github.com/thesmarthub/mopheth-RESTAPI.git'
+            }
+        }
+        stage('Retrieve Commit Message') {
+            steps {
+                script {
+                    def commitHash = env.GIT_COMMIT
+                    COMMIT_MESSAGE = sh(script: "git log -1 --pretty=%B ${commitHash}", returnStdout: true).trim()
+                }
+            }
+        }
+        stage('Build docker Image'){
+            steps {
+                sh 'cp /var/mopheth-vars/backend/.env $WORKSPACE'
+                sh 'docker build . -t $DOCKER_IMAGE_NAME'
+            }
+      post {
+      success {
+      slackSend channel: "#mophethapp-deployment-notification", color: '#36a64f', message: "Build for $PROJECT on $DEPLOY_ENV Area was successful! commit_message:$COMMIT_MESSAGE build_number:$BUILD_NUMBER"
+    }
+    failure {
+      slackSend channel: "#mophethapp-deployment-notification", color: '#ff0000', message: "Build for $PROJECT on $DEPLOY_ENV Failed! commit_message:$COMMIT_MESSAGE build_number:$BUILD_NUMBER"
+    }
+  }
+        }
+         stage('Tag & Push Image to Docker Hub') {
+			steps {
+			    script {
+                    sh """
+                    docker tag $DOCKER_IMAGE_NAME $DOCKER_IMAGE_NAME:${BUILD_NUMBER}
+                    docker tag $DOCKER_IMAGE_NAME:${BUILD_NUMBER} $DOCKER_IMAGE_NAME:latest
+                    echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
+                    docker push $DOCKER_IMAGE_NAME:${BUILD_NUMBER}
+                    docker push $DOCKER_IMAGE_NAME:latest
+                    """
+                }			    
+			}
+			post {
+            success {
+            slackSend channel: "#mophethapp-deployment-notification", color: '#36a64f', message: "Taggged & Pushed $DOCKER_IMAGE_NAME to Docker Registry"
+            }
+            failure {
+            slackSend channel: "#mophethapp-deployment-notification", color: '#ff0000', message: "Image $DOCKER_IMAGE_NAME Tag & Push failed!"
+    }
+  }
+		}
+}
+}

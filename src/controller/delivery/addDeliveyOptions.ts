@@ -3,9 +3,9 @@ import dotenv from 'dotenv';
 import { Request, Response} from 'express';
 import {  AuthenticationError } from '../../services/http_errors';
 import HTTP_STATUS from 'http-status-codes';
-import { Products } from '@root/models/products';
 import { UserInputError } from '../../services/http_errors';
-import { validateReviews } from '@root/helpers/validations/authValidation';
+import { validateDeliveryOptions } from '@root/helpers/validations/authValidation';
+import { Delivery } from '@root/models/deliveryMethods';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 dotenv.config();
@@ -15,9 +15,10 @@ interface QueryRequestBody {
 }
 
 interface ReviewRequestBody {
-  rating?: number;
-  comment?: string;
-  author?: string;
+  optionName?: string;
+  deliveryDate?: string;
+  price?: string;
+
 }
 export interface CustomRequest extends Request {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -25,19 +26,17 @@ export interface CustomRequest extends Request {
 }
 
 
-const addReview = async (req: Request , res: Response): Promise<void> => {
+const addDeliveryOptions = async (req: Request , res: Response): Promise<void> => {
 
     try {
 
-			const customReq = req as CustomRequest;
 	   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-	    const payloadData = customReq.payload;
 	 		const { id } = req.params as unknown as QueryRequestBody;
 
 
-			 const { rating, comment } = req.body as ReviewRequestBody;
+			 const { optionName, deliveryDate, price } = req.body as ReviewRequestBody;
 
-			 const { error } = validateReviews.validate(req.body);
+			 const { error } = validateDeliveryOptions.validate(req.body);
 			 if (error) {
 				 res.status(HTTP_STATUS.BAD_REQUEST).json({
 					 status: HTTP_STATUS.BAD_REQUEST,
@@ -48,11 +47,11 @@ const addReview = async (req: Request , res: Response): Promise<void> => {
 
 
 
-			const product = await Products.findOne({ _id: id });
+			const options = await Delivery.findOne({ _id: id });
 
 
 
-			if (!product) {
+			if (!options) {
 				res.status(HTTP_STATUS.BAD_REQUEST).json({
 					status: HTTP_STATUS.BAD_REQUEST,
 					error: new AuthenticationError('No Records'),
@@ -60,19 +59,19 @@ const addReview = async (req: Request , res: Response): Promise<void> => {
 				return;
 			}
 
-			console.log(product);
 
 
-	const review = await	Products.findOneAndUpdate({ _id: id },
-				{ $push: { reviews: {
+	const review = await	Delivery.findOneAndUpdate({ _id: id },
+				{ $push: { deliveryOptions: {
 
-						rating: rating && rating,
-						comment: comment && comment,
-						author: payloadData.fullNames,
-						date: Date.now(),
+						optionName: optionName && optionName,
+						deliveryDate: deliveryDate && deliveryDate,
+						price: price && price,
 
 				 }}
 			 });
+
+			 console.log({review});
 
 
 			if(review){
@@ -101,4 +100,5 @@ const addReview = async (req: Request , res: Response): Promise<void> => {
         });
     }
 };
-export default addReview;
+
+export default addDeliveryOptions;
