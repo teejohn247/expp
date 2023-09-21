@@ -119,7 +119,7 @@ export class MainServer {
 		});
 
 		const pubClient = createClient({
-			url: 'process.env.REDIS_HOST'
+			url: process.env.REDIS_HOST
 		});
 		const subClient = pubClient.duplicate();
 		log.info(`Redis started on port ${config.REDIS_HOST}`);
