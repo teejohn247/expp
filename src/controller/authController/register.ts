@@ -105,6 +105,7 @@ const register = async (req: Request , res: Response): Promise<void> => {
             success: false,
             error: error
         });
+				//  if (error) throw new InternalServerError(error);
     }
 };
 export default register;

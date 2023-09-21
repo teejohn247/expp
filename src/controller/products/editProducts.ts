@@ -82,8 +82,6 @@ const editProducts = async (req: Request , res: Response): Promise<void> => {
 									data: 'Update Successful'
 							 });
 
-							return;
-
 			}else{
 				res.status(HTTP_STATUS.BAD_REQUEST).json({
 					status: HTTP_STATUS.BAD_REQUEST,

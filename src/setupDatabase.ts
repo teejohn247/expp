@@ -9,7 +9,7 @@ export default () => {
 		mongoose
 			.connect(`${config.DATABASE_URL}`)
 			.then(() => {
-				return log.info(`Successfully connected to database ${config.DATABASE_URL}`);
+				return log.info('Successfully connected to database');
 			})
 			.catch((error) => {
 				log.error('Error connecting to database: ', error);

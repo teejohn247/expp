@@ -54,16 +54,3 @@ export const validateCategory = Joi.object({
   image: Joi.string().empty().required(),
   description: Joi.string().empty().required()
 });
-
-export const validateDelivery = Joi.object({
-  name: Joi.string().empty().required(),
-  image: Joi.string().required(),
-  deliveryOptions: Joi.array()
-});
-
-export const validateDeliveryOptions = Joi.object({
-  optionName: Joi.string().empty().required(),
-  deliveryDate: Joi.string().required(),
-  price: Joi.string().required()
-});
-

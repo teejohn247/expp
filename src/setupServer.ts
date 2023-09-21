@@ -10,14 +10,14 @@ import HTTP_STATUS from 'http-status-codes';
 import Logger from 'bunyan';
 import { config } from '@root/config';
 import { Server } from 'socket.io';
-// import { createClient } from 'redis';
-// import { createAdapter } from '@socket.io/redis-adapter';
+import { createClient } from 'redis';
+import { createAdapter } from '@socket.io/redis-adapter';
 import userRouter from './routes';
 import { cloudinaryConfig } from './config/cloudinary';
 // import applicationRoutes from '@root/routes';
 import { CustomError, IErrorResponse } from '@global/helpers/error-handler';
 
-const SERVER_PORT = process.env.PORT || 5000;
+const SERVER_PORT = process.env.PORT || 4000;
 const log: Logger = config.createLogger('server');
 dotenv.config();
 
@@ -110,51 +110,26 @@ export class MainServer {
 		}
 	}
 
-	// private async createSocketIO(httpServer: http.Server): Promise<Server> {
-	// 	const io: Server = new Server(httpServer, {
-	// 		cors: {
-	// 			origin: config.CLIENT_URL,
-	// 			methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS']
-	// 		}
-	// 	});
-
-	// 	const pubClient = createClient({
-	// 		// url: `redis://${process.env.SECRET_KEY}@${config.REDIS_HOST}`
-	// 		url: 'redis://127.0.0.1:6379'
-
-	// 	});
-	// 	// 'redis://127.0.0.1:6379`
-	// 	const subClient = pubClient.duplicate();
-	// 	await Promise.all([pubClient.connect(), subClient.connect()]);
-
-	// 	log.info(`Redis started on port ${config.REDIS_HOST}`);
-
-	// 	io.adapter(createAdapter(pubClient, subClient));
-
-	// 	return io;
-	// }
-
 	private async createSocketIO(httpServer: http.Server): Promise<Server> {
 		const io: Server = new Server(httpServer, {
 			cors: {
 				origin: config.CLIENT_URL,
-				methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-			},
+				methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS']
+			}
 		});
 
-		// Remove the following Redis-related code
-		// const pubClient = createClient({
-		//   url: 'redis://127.0.0.1:6379',
-		// });
-		// const subClient = pubClient.duplicate();
-		// await Promise.all([pubClient.connect(), subClient.connect()]);
+		const pubClient = createClient({
+			url: 'redis://127.0.0.1:6379'
+		});
+		const subClient = pubClient.duplicate();
+		log.info(`Redis started on port ${config.REDIS_HOST}`);
 
-		// io.adapter(createAdapter(pubClient, subClient));
+		await Promise.all([pubClient.connect(), subClient.connect()]);
+
+		io.adapter(createAdapter(pubClient, subClient));
 
 		return io;
 	}
-
-
 
 	private startHttpServer(httpServer: http.Server): void {
 		log.info(`Server has started with process id ${process.pid}`);

@@ -14,29 +14,17 @@ interface TokenPayload {
 
 dotenv.config();
 
-// module.exports = {
+module.exports = {
 
-// encodeToken: (id:Types.ObjectId, fullNames: string, email: string) : string => {
+encodeToken: (id:Types.ObjectId, fullNames: string, email: string) : string => {
 
-// const payload: TokenPayload = { id, fullNames, email };
+const payload: TokenPayload = { id, fullNames, email };
 
 
 
-// const options = { expiresIn: '10d' };
-// const secret = process.env.SECRET_KEY as string;
+const options = { expiresIn: '10d' };
+const secret = process.env.SECRET_KEY as string;
 
-// return jwt.sign(payload, secret, options);
-//     },
-// };
-
-async function encodeToken(id:Types.ObjectId, fullNames: string, email: string)  {
-	const payload: TokenPayload = {
-		id, fullNames, email
-	};
-	const options = { expiresIn: '10d' };
-	const secret = process.env.SECRET_KEY as string;;
-
-	return jwt.sign(payload, secret, options);
-	};
-
-	export default encodeToken;
+return jwt.sign(payload, secret, options);
+    },
+};

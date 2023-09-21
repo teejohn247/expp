@@ -9,7 +9,7 @@ import {AuthenticationError, UserInputError
 } from '../../services/http_errors';
 import HTTP_STATUS from 'http-status-codes';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-import encodeToken from '../../config/utils';
+const utils = require('../../config/utils');
 
 
 dotenv.config();
@@ -45,7 +45,7 @@ const login = async (req: Request , res: Response): Promise<void> => {
         }
 
 
-				const isMatch = await bcrypt.compare(password, user.password as string);
+				const isMatch = bcrypt.compare(password, user.password as string);
 
 				if (!isMatch) {
 					res.status(HTTP_STATUS.BAD_REQUEST).json({
@@ -56,10 +56,7 @@ const login = async (req: Request , res: Response): Promise<void> => {
         }
 
 
-
-        const token = await encodeToken(user?._id, user?.fullNames as string, email);
-
-				console.log({token});
+        const token = utils.encodeToken(user?._id, user?.fullNames as string, email);
 
         res.status(HTTP_STATUS.CREATED).json({
             status: HTTP_STATUS.CREATED,
@@ -67,7 +64,6 @@ const login = async (req: Request , res: Response): Promise<void> => {
             data: user,
             token: token
         });
-				return;
     } catch (error) {
         res.status(500).json({
             status: 500,

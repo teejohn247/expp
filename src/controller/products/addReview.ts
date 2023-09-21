@@ -81,7 +81,6 @@ const addReview = async (req: Request , res: Response): Promise<void> => {
 									success: true,
 									data: 'Update Successful'
 							 });
-							 return;
 
 			}else{
 				res.status(HTTP_STATUS.BAD_REQUEST).json({
