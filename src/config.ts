@@ -16,6 +16,12 @@ class Config {
 	public CLOUDNARY_NAME: string | undefined;
 	public CLOUDNARY_API_KEY: string | undefined;
 	public CLOUDNARY_API_SECRET: string | undefined;
+	public TWILIO_ACCOUNT_SID : string | undefined;
+	public TWILIO_AUTH_TOKEN: string | undefined;
+	public SECRET_KEY: string | undefined;
+
+
+
 
 	private readonly DEFAULT_DATABASE_URL: any = process.env.DATABASE_URL ;
 
@@ -25,13 +31,18 @@ class Config {
 		this.NODE_ENV = process.env.NODE_ENV || 'development';
 		this.PORT = Number(process.env.PORT) || 4000;
 		this.CLIENT_URL = process.env.CLIENT_URL || '';
+		this.SECRET_KEY = process.env.SECRET_KEY || '';
 		this.SECRET_KEY_ONE = process.env.SECRET_KEY_ONE || '';
 		this.SECRET_KEY_TWO = process.env.SECRET_KEY_TWO || '';
 		this.REDIS_HOST = process.env.REDIS_HOST || '';
 		this.CLOUDNARY_NAME = process.env.CLOUDNARY_NAME || '';
 		this.CLOUDNARY_API_KEY = process.env.CLOUDNARY_API_KEY || '';
 		this.CLOUDNARY_API_SECRET = process.env.CLOUDNARY_API_SECRET || '';
+		this.TWILIO_ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID || '';
+		this.TWILIO_AUTH_TOKEN = process.env.TWILIO_AUTH_TOKEN || '';
+
 	}
+
 
 	public createLogger(name: string): bunyan {
 		return bunyan.createLogger({ name, level: 'debug' });
