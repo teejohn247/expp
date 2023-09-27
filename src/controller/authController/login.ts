@@ -55,10 +55,7 @@ const login = async (req: Request , res: Response): Promise<void> => {
             return;
         }
 
-
-
         const token = await encodeToken(user?._id, user?.fullNames as string, email);
-
 				console.log({token});
 
         res.status(HTTP_STATUS.CREATED).json({

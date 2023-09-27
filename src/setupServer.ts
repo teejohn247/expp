@@ -17,9 +17,10 @@ import { cloudinaryConfig } from './config/cloudinary';
 // import applicationRoutes from '@root/routes';
 import { CustomError, IErrorResponse } from '@global/helpers/error-handler';
 
-const SERVER_PORT = process.env.PORT || 4000;
+const SERVER_PORT = process.env.PORT || 4000
 const log: Logger = config.createLogger('server');
 dotenv.config();
+import cron from 'node-cron';
 
 export class MainServer {
 	private app: Application;
@@ -63,6 +64,16 @@ export class MainServer {
 		app.use(json({ limit: '50mb' }));
 		app.use(urlencoded({ extended: true }));
 		app.use('*', cloudinaryConfig);
+		cron.schedule('* * * * *', async function () {
+			console.log('---------------------');
+		//  const ans = await changeStatus();
+		//  console.log(ans);
+		 console.log('running a task every 60 seconds');
+
+		//  return ans;
+
+
+		});
 	}
 	private testMiddlewares(app: Application): void {
 		app.get('/test', (req, res) => {
@@ -141,16 +152,6 @@ export class MainServer {
 				methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
 			},
 		});
-
-		// Remove the following Redis-related code
-		// const pubClient = createClient({
-		//   url: 'redis://127.0.0.1:6379',
-		// });
-		// const subClient = pubClient.duplicate();
-		// await Promise.all([pubClient.connect(), subClient.connect()]);
-
-		// io.adapter(createAdapter(pubClient, subClient));
-
 		return io;
 	}
 

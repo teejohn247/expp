@@ -23,6 +23,7 @@ class Config {
 
 
 
+	
 	private readonly DEFAULT_DATABASE_URL: any = process.env.DATABASE_URL ;
 
 	constructor() {

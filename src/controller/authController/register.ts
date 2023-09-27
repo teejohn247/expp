@@ -12,8 +12,8 @@ import HTTP_STATUS from 'http-status-codes';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 dotenv.config();
 
-// const accountSid = process.env.TWILIO_ACCOUNT_SID;
-// const authToken = process.env.TWILIO_AUTH_TOKEN;
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
 
 interface RegistrationRequestBody {
 	fullNames: string;
@@ -25,7 +25,7 @@ interface RegistrationRequestBody {
 	password: string;
 }
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-// const client = require('twilio')(accountSid, authToken);
+const client = require('twilio')(accountSid, authToken);
 
 const register = async (req: Request , res: Response): Promise<void> => {
 
@@ -58,24 +58,24 @@ const register = async (req: Request , res: Response): Promise<void> => {
         const salt = await bcrypt.genSalt(10);
         const hashed = await bcrypt.hash(password, salt);
 
-				// let service_sid;
+				let service_sid;
 
 			// const chh =	await client.verify.services.create({ friendlyName: 'MOPHETH', codeLength: 4});
 
 
-		// 		await client.verify.v2.services.create({ friendlyName: 'MOPHETH', codeLength: 4}).then((service: { sid: unknown }) => service_sid = service.sid);
-		// 		console.log({service_sid});
-		// 		console.log({phoneNumber});
+				await client.verify.v2.services.create({ friendlyName: 'MOPHETH', codeLength: 4}).then((service: { sid: unknown }) => service_sid = service.sid);
+				console.log({service_sid});
+				console.log({phoneNumber});
 
 
-        // const verificationCode = await client.verify.services(service_sid)
-        // .verifications
-        // .create({
-        //     to: phoneNumber,
-        //     channel: 'sms',
-        // });
+        const verificationCode = await client.verify.services(service_sid)
+        .verifications
+        .create({
+            to: phoneNumber,
+            channel: 'sms',
+        });
 
-		// 	  console.log({verificationCode});
+			  console.log({verificationCode});
 
 
        const user = new User({
@@ -94,7 +94,7 @@ const register = async (req: Request , res: Response): Promise<void> => {
             status: HTTP_STATUS.CREATED,
             success: true,
             data: user,
-			// otp: verificationCode
+			      otp: verificationCode
 
         });
 

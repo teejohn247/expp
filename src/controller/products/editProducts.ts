@@ -46,8 +46,8 @@ const editProducts = async (req: Request , res: Response): Promise<void> => {
 			const product = await Products.findOne({ _id: id });
 
 			if (!product) {
-				res.status(HTTP_STATUS.BAD_REQUEST).json({
-					status: HTTP_STATUS.BAD_REQUEST,
+				res.status(HTTP_STATUS.NOT_FOUND).json({
+					status: HTTP_STATUS.NOT_FOUND,
 					error: new AuthenticationError('No Records'),
 				});
 				return;

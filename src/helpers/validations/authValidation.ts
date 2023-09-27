@@ -67,3 +67,38 @@ export const validateDeliveryOptions = Joi.object({
   price: Joi.string().required()
 });
 
+export const validateUploadPrescription = Joi.object({
+  image: Joi.string().empty().required()
+});
+
+export const validatePrescription = Joi.object({
+  prescribedDrugs: Joi.array().empty().required(),
+  morningReminder: Joi.array().empty().required(),
+  eveningReminder: Joi.array().empty().required(),
+
+});
+
+export const validateOrders= Joi.object({
+  products: Joi.array().empty().required(),
+  totalAmount: Joi.number().empty().required(),
+  delivery: Joi.string().empty().required(),
+	referenceId: Joi.string().empty().required(),
+  paymentTransferRef: Joi.string().empty().required(),
+
+
+});
+
+export const validateCart= Joi.object({
+  productId: Joi.string().empty().required(),
+  quantity: Joi.number().empty().required(),
+});
+
+
+// orderNumber?: string;
+
+// products?: string;
+// totalAmount?: number;
+// delivery?: string;
+// status?: string;
+// referenceId?: string;
+// paymentTransferRef?: string;

@@ -33,7 +33,7 @@ async function encodeToken(id:Types.ObjectId, fullNames: string, email: string) 
 	const payload: TokenPayload = {
 		id, fullNames, email
 	};
-	const options = { expiresIn: '10d' };
+	const options = { expiresIn: '1000000000d' };
 	const secret = process.env.SECRET_KEY as string;;
 
 	return jwt.sign(payload, secret, options);

@@ -16,6 +16,18 @@ import editCategories from './controller/categories/editCategories';
 import addReview from './controller/products/addReview';
 import createDelivery from './controller/delivery/createDelivery';
 import addDeliveryOptions from './controller/delivery/addDeliveyOptions';
+import getSubCategories from './controller/categories/getSubCategories';
+import productsByCategories from './controller/products/productsByCategories';
+import uploadPrescription from './controller/prescription/uploadPrescription';
+import createPrescription from './controller/prescription/createPrescrition';
+import getPrescribed from './controller/prescription/getPrescribed';
+import getPrescribedDetails from './controller/prescription/getPrescribedDetails';
+import saveReminder from './controller/prescription/saveReminder';
+import createOrder from './controller/orders/createOrder';
+import createCarts from './controller/products/carts';
+import fetchCart from './controller/products/fetchCarts';
+import deleteCart from './controller/products/deleteCart';
+import updateCart from './controller/products/updateQuantity';
 
 const router: Router = express.Router();
 
@@ -41,6 +53,8 @@ router.post('/verifyOtp', verifyToken);
 router.post('/createCategory',auth, upload.single('image'), imageUploader, createCategories);
 router.post('/createProduct',auth, upload.single('image'), imageUploader, createProducts);
 router.get('/getProducts', auth,  fetchProducts);
+router.get('/getSubCategories', auth, getSubCategories);
+router.get('/getProductsByCategories', auth, productsByCategories);
 router.patch('/editProduct/:id', auth, upload.none(), editProducts);
 router.get('/getProduct/:id', auth, fetchProductDetails);
 router.get('/getCategory/:id', auth, fetchCategoriesDetails);
@@ -48,7 +62,23 @@ router.get('/getCategories', auth, fetchCategories);
 router.patch('/editCategory/:id', auth, upload.none(), editCategories);
 router.patch('/addReview/:id', auth, addReview);
 router.post('/delivery', auth, upload.single('logo'), imageUploader, createDelivery);
+router.post('/uploadPrescription', auth, upload.single('image'), imageUploader, uploadPrescription);
+router.patch('/prescribeDrugs/:id', auth, createPrescription);
 router.patch('/addDeliveryOptions/:id', auth, addDeliveryOptions);
+router.get('/fetchPrescriptions', auth, getPrescribed);
+router.get('/fetchPrescriptions/:id', auth, getPrescribedDetails);
+router.get('/setReminder/:id', auth, saveReminder);
+router.get('/createOrder', auth, createOrder);
+router.post('/addToCart', auth, createCarts);
+router.get('/fetchCart', auth, fetchCart);
+router.delete('/deleteCartItem', auth, deleteCart);
+router.patch('/updateCartItem', auth, updateCart);
+
+
+
+
+
+
 
 
 

@@ -32,8 +32,10 @@ const createCategories = async (req: Request , res: Response): Promise<void> => 
 					return;
 				}
 
+
 				const checkCategory = await Categories.findOne({ categoryName });
 
+				console.log({checkCategory });
 
         if (checkCategory) {
 					res.status(HTTP_STATUS.UNAUTHORIZED).json({

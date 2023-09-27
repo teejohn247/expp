@@ -23,6 +23,8 @@ const auth = async (req: Request , res: Response, next: () => void): Promise<voi
 
 		const token = req.headers.authorization?.replace('Bearer ', ''); // Assuming it's in the 'Authorization' header
 
+		console.log({token});
+
 		if (!token) {
 						res.status(HTTP_STATUS.UNAUTHORIZED).json({
 				status: HTTP_STATUS.UNAUTHORIZED,
@@ -40,9 +42,12 @@ const auth = async (req: Request , res: Response, next: () => void): Promise<voi
 					status: HTTP_STATUS.FORBIDDEN,
 					error: new AuthenticationError('Token is invalid or expired'),
 				});
+				return;
 			}
 
 			req.payload = decoded;
+
+			console.log({decoded});
     next();
 		});
   } catch (error) {
