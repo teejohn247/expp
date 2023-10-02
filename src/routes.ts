@@ -28,6 +28,20 @@ import createCarts from './controller/products/carts';
 import fetchCart from './controller/products/fetchCarts';
 import deleteCart from './controller/products/deleteCart';
 import updateCart from './controller/products/updateQuantity';
+import createPost from './controller/selfAdvice/createPost';
+import fetchPosts from './controller/selfAdvice/fetchPosts';
+import fetchPublishedPosts from './controller/selfAdvice/fetchPublishedPost';
+import updatePost from './controller/selfAdvice/updatePost';
+import createAdviceCategories from './controller/selfCareCategories/createCategory';
+import editCareCategories from './controller/selfCareCategories/editCategories';
+import fetchCareCategories from './controller/selfCareCategories/fetchCategories';
+import fetchCareCategoriesDetails from './controller/selfCareCategories/fetchCategoryDetails';
+import fetchPostDetails from './controller/selfAdvice/fetchPostDetails';
+import { getAvailableTimeSlots } from './controller/consultation/getAvailableTimeSlots';
+import createConsultationCategories from './controller/consultation/createCategory';
+import fetchConsultationCategories from './controller/consultation/fetchCategories';
+import editConsultationCategories from './controller/consultation/editCategories';
+import consult from './controller/consultation/consult';
 
 const router: Router = express.Router();
 
@@ -73,7 +87,22 @@ router.post('/addToCart', auth, createCarts);
 router.get('/fetchCart', auth, fetchCart);
 router.delete('/deleteCartItem', auth, deleteCart);
 router.patch('/updateCartItem', auth, updateCart);
+router.post('/createPost', auth, upload.single('image'), imageUploader, createPost);
+router.get('/fetchPost', auth, fetchPosts);
+router.get('/fetchPublishedPosts', auth, fetchPublishedPosts);
+router.patch('/updatePosts/:id', auth, updatePost);
+router.post('/createPostCategories', auth, upload.single('image'), imageUploader, createAdviceCategories);
+router.patch('/editPostCategories', auth, editCareCategories);
+router.get('/fetchPostCategories', auth, fetchCareCategories);
+router.get('/fetchPostDetail/:id', auth, fetchCareCategoriesDetails);
+router.get('/fetchPostDetails/:id', auth, fetchPostDetails);
+router.get('/getAvailableDates/:appointmentDate', auth,getAvailableTimeSlots);
+router.post('/createConsultationCategories', auth, upload.single('image'), imageUploader, createConsultationCategories);
+router.get('/getConsultationCategories', auth, fetchConsultationCategories);
+router.patch('/editConsultationCategories/:id', auth, editConsultationCategories);
+router.post('/consult', auth, consult);
 
+// router.patch('/editConsultationCategories', auth, editConsultationCategories);
 
 
 

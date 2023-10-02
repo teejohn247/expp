@@ -54,6 +54,12 @@ export const validateCategory = Joi.object({
   image: Joi.string().empty().required(),
   description: Joi.string().empty().required()
 });
+export const validatePost = Joi.object({
+  title: Joi.string().empty().required(),
+  content: Joi.string(),
+  image: Joi.string().empty().required(),
+  categoryId: Joi.string().empty().required()
+});
 
 export const validateDelivery = Joi.object({
   name: Joi.string().empty().required(),
@@ -86,6 +92,14 @@ export const validateOrders= Joi.object({
   paymentTransferRef: Joi.string().empty().required(),
 
 
+});
+
+
+export const validateAdvice= Joi.object({
+  title: Joi.array().empty().required(),
+  content: Joi.string().empty().required(),
+  featuredImage: Joi.string().empty().required(),
+  categoryId: Joi.string().empty().required(),
 });
 
 export const validateCart= Joi.object({

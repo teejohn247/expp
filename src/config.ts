@@ -22,9 +22,8 @@ class Config {
 
 
 
-
-	
 	private readonly DEFAULT_DATABASE_URL: any = process.env.DATABASE_URL ;
+
 
 	constructor() {
 		this.DATABASE_URL = process.env.DATABASE_URL || this.DEFAULT_DATABASE_URL;
