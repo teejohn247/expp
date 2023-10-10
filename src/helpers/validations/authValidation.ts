@@ -11,6 +11,13 @@ export const validateRegisterUser = Joi.object({
   password: Joi.string().empty().required()
 });
 
+export const validateRegisterAdmin = Joi.object({
+  fullNames: Joi.string().empty().required(),
+  role: Joi.string().empty().required(),
+  email: Joi.string().empty().email().required(),
+  password: Joi.string().empty().required()
+});
+
 export const validateProducts = Joi.object({
   productName: Joi.string().empty().required(),
   description: Joi.string().empty().required(),

@@ -11,15 +11,16 @@ async function handleUpload(file: string) {
 }
 const imageUploader = async (req: Request , res: Response, next: () => void) => {
   try {
-       console.log(req.file);
-		if(req.file !== undefined){
-			const b64 = Buffer.from(req.file.buffer).toString('base64');
-			const dataURI = 'data:' + req.file.mimetype + ';base64,' + b64;
-			const cldRes = await handleUpload(dataURI);
-			req.body.image = cldRes.secure_url;
-			console.log('kdk');
+       console.log('ww',req.file);
+			 return;
+		// if(req.file !== undefined){
+		// 	const b64 = Buffer.from(req.file.buffer).toString('base64');
+		// 	const dataURI = 'data:' + req.file.mimetype + ';base64,' + b64;
+		// 	const cldRes = await handleUpload(dataURI);
+		// 	req.body.image = cldRes.secure_url;
+		// 	console.log('kdk');
 			next();
-		}
+		// }
     // res.json(cldRes);
   } catch (error) {
     res.send({
