@@ -81,7 +81,7 @@ router.patch('/prescribeDrugs/:id', auth, createPrescription);
 router.patch('/addDeliveryOptions/:id', auth, addDeliveryOptions);
 router.get('/fetchPrescriptions', auth, getPrescribed);
 router.get('/fetchPrescriptions/:id', auth, getPrescribedDetails);
-router.get('/setReminder/:id', auth, saveReminder);
+router.post('/setReminder/:id', auth, saveReminder);
 router.get('/createOrder', auth, createOrder);
 router.post('/addToCart', auth, createCarts);
 router.get('/fetchCart', auth, fetchCart);
@@ -103,13 +103,6 @@ router.patch('/editConsultationCategories/:id', auth, editConsultationCategories
 router.post('/consult', auth, consult);
 
 // router.patch('/editConsultationCategories', auth, editConsultationCategories);
-
-
-
-
-
-
-
 
 
 export default router;
